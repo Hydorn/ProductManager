@@ -1,0 +1,52 @@
+.add{
+    border: solid 2px #aaa;
+    cursor: pointer;
+    transition: all 0.5s ease-in;
+}
+.circle {
+  border-radius: 50%;
+  width: 7rem;
+  height: 7rem;
+  border: solid 2px #aaa;
+  position: relative;
+  transition: all 0.2s ease-in;
+  
+}
+.circle::after {
+  content: " ";
+  position: absolute;
+  display: block;
+  background-color: #aaa;
+  height: 10px;
+  margin-top: -5px;
+  top: 50%;
+  left: 5px;
+  right: 5px;
+  z-index: 9;
+  transition: all 0.5s ease-in;
+}
+.circle::before {
+  content: " ";
+  position: absolute;
+  display: block;
+  background-color: #aaa;
+  width: 10px;
+  margin-left: -5px;
+  left: 50%;
+  top: 5px;
+  bottom: 5px;
+  z-index: 9;
+  transition: all 0.5s ease-in;
+}
+.add:hover {
+    border-color: #fff;
+}
+.add:hover .circle{
+    border-color: #fff;
+}
+.add:hover .circle::before{
+    background-color: #fff;
+}
+.add:hover .circle::after{
+    background-color: #fff;
+}
