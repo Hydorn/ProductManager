@@ -5,6 +5,7 @@ import AddModal from "./AddModal";
 import EditModal from "./EditModal";
 import Product from "./Product";
 import Skeleton from "./Skeleton";
+import Pagination from "./Pagination";
 
 type ProductsProps = {
     search: string;
@@ -23,20 +24,30 @@ type mapProd = (arr:products[]|undefined) => ReactNode;
 
 const Products:React.FC<ProductsProps> = ({search}) => {
 
+    const [dataFetch, setDataFetch] = useState(false);
     const [products, setProducts] = useState<products[]>();
     const [loading, setLoading] = useState(true);
+
     const [addModal, setAddModal] = useState(false);
-    const [dataFetch, setDataFetch] = useState(false);
     
+    const [pagination, setPagination] = useState(0);
+    const [page, setPage] = useState(0);
+
     useEffect(()=>{
+        setLoading(true);
         const fetchData = async()=>{
-            const response = await fetch("https://nodo-production.up.railway.app/product");
-            const data = await response.json();
-            setProducts(data);
+            const response = await fetch(`https://nodo-production.up.railway.app/product/${page}?search=${search}`);
+            const data = await response.json();           
+            setProducts(data.response);
+            setPagination(data.length);
             setLoading(false);
         };
         fetchData();
-    },[dataFetch]);
+    },[dataFetch,search,page]);
+
+    useEffect(()=>{
+        setPage(0);
+    },[search]);
 
     const reloader = () => {
         setLoading(true);
@@ -54,6 +65,10 @@ const Products:React.FC<ProductsProps> = ({search}) => {
             }
         }
     }
+    
+    const handlePagination = (id:number) => {
+        setPage(id);
+    }
 
     const mapProducts: mapProd = (arr) => {
         const newList:JSX.Element[]=[];
@@ -70,18 +85,6 @@ const Products:React.FC<ProductsProps> = ({search}) => {
           )});       
         return newList;
     }
-    const filterSearch = (search:string) => {
-        const filter = search.toLowerCase();
-        let filtered:any = []
-        if(search==="") return mapProducts(products);
-        else {
-            filtered = products?.filter(item=>{
-                return (item.name.toLocaleLowerCase().includes(filter)||
-                    item.brand.toLocaleLowerCase().includes(filter));
-            })
-            return mapProducts(filtered);
-        }        
-    }
 
     const Skeletons:ReactNode = [/*<Add/>,*/<Skeleton/>,<Skeleton/>,<Skeleton/>,<Skeleton/>,<Skeleton/>,<Skeleton/>,<Skeleton/>,<Skeleton/>,<Skeleton/>,<Skeleton/>];
 
@@ -94,7 +97,10 @@ const Products:React.FC<ProductsProps> = ({search}) => {
         <>
         {addModal&&<AddModal handleAddModal={handleAddModal}/>}
         <Add handleAddModal={handleAddModal}/>
-        {filterSearch(search)}
+        {mapProducts(products)}
+        <Pagination length={pagination}
+                    handlePagination={handlePagination}
+                    focus={page}/>
         </>
     )
 }

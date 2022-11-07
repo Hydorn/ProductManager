@@ -112,3 +112,8 @@
         transform: rotate(360deg);
     }
 }
+@media (max-width: 800px) {
+    .modal-container{
+        width: 100vw;
+    }
+ }

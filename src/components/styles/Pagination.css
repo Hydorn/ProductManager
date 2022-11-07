@@ -1,0 +1,38 @@
+.pagination-container{
+    position: fixed;
+    bottom: 2rem;
+    padding: 2rem;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    border-top: 2px solid rgba(255, 255, 255, 0.25) ;
+}
+
+.pagination-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 500;
+    width: 4rem;
+    height: 4rem;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    border-radius: 5px;
+    transition: all 0.2s ease-in;
+    cursor: pointer;
+}
+.pagination-item:hover{
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: #fff;
+}
+.focus{
+    border-color: #fff;
+}
+@media (max-height: 950px) {
+    .pagination-container{
+        margin-top: 2rem;
+        position: relative;
+    }
+ }
